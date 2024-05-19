@@ -13,8 +13,8 @@ inputs:
   isNetCore:
     description: 'Is crm in net. Core'
     default: false
-  pkgs:
-    description: 'Pkgs list to download'
+  path:
+    description: 'Path to pkg'
     required: true
 runs:
   using: 'node20'
