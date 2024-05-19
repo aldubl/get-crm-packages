@@ -1,0 +1,21 @@
+name: 'get-crm-packages'
+description: 'get-crm-packages'
+inputs:
+  crmUrl:
+    description: 'Crm url'
+    required: true
+  user:
+    description: 'Crm user'
+    required: true
+  pass:
+    description: 'Crm pass'
+    required: true
+  isNetCore:
+    description: 'Is crm in net. Core'
+    default: false
+  pkgs:
+    description: 'Pkgs list to download'
+    required: true
+runs:
+  using: 'node20'
+  main: 'loader.js'
