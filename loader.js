@@ -12,6 +12,8 @@ const path = core.getInput('path');
 try {
 
   const files = listDirectories(path);
+  console.log("Попытка выгрузки пакетов:");
+  console.log(files);
 
   (async () => {
 
