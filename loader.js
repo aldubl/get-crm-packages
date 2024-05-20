@@ -21,14 +21,14 @@ try {
 
       //for (const file of files) {
 
-      const outputPath = path.resolve(__dirname + "/resultDir", file);
+      const outputPath = path.resolve(__dirname + "/resultDir", "result.zip");
       const url = "";
 
       try {
         await download(url, outputPath, files);
-        console.log(`Файл ${file} успешно загружен`);
+        console.log(`Файл ${outputPath} успешно загружен`);
       } catch (err) {
-        core.setFailed(`Ошибка скачивания файла ${file}: ${err}`);
+        core.setFailed(`Ошибка скачивания файла ${outputPath}: ${err}`);
       }
       //}
     } else {
