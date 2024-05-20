@@ -21,7 +21,7 @@ try {
 
       //for (const file of files) {
 
-      const outputPath = __dirname + "/resultDir/result.zip";
+      const outputPath = __dirname + "/result.zip";
       const url = "";
 
       try {
