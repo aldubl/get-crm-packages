@@ -96,7 +96,7 @@ const authorization = async () => {
 const download = async (outputLocationPath, files) => {
   var queryStr = '/ServiceModel/PackageInstallerService.svc/GetZipPackages';
   console.log(conf.m_isNetCore);
-  if (!conf.m_isNetCore) {
+  if (conf.m_isNetCore == false) {
     queryStr = `/0${queryStr}`;
     console.log(`Приложение на Net. Framework`);
   } else {
