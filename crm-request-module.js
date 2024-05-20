@@ -63,9 +63,14 @@ const setCookieHeaders = (headers) => {
 };
 
 const query = async (queryStr, isNeedCookie = true) => {
-  if (!conf.m_isNetCore) {
+  
+  if (conf.m_isNetCore == "false") {
     queryStr = `/0${queryStr}`;
+    console.log(`Приложение на Net. Framework`);
+  } else {
+    console.log(`Приложение на Net. Core`);
   }
+
 
   const jar = new CookieJar();
   const client = wrapper(axios.create({ jar, baseURL: conf.m_url, timeout: conf.m_timeout * 1000 }));
@@ -95,8 +100,8 @@ const authorization = async () => {
 
 const download = async (outputLocationPath, files) => {
   var queryStr = '/ServiceModel/PackageInstallerService.svc/GetZipPackages';
-  console.log(conf.m_isNetCore);
-  if (conf.m_isNetCore == false || conf.m_isNetCore == "false") {
+
+  if (conf.m_isNetCore == "false") {
     queryStr = `/0${queryStr}`;
     console.log(`Приложение на Net. Framework`);
   } else {
