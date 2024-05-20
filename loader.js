@@ -7,6 +7,7 @@ conf.m_url = core.getInput('crmUrl');
 conf.m_user = core.getInput('user');
 conf.m_pass = core.getInput('pass');
 conf.m_isNetCore = core.getInput('isNetCore');
+conf.m_timeout = 3600;
 const path = core.getInput('path');
 
 try {
@@ -24,10 +25,9 @@ try {
       console.log("Успешная авторизация.");
 
       const outputPath = __dirname + "/result.zip";
-      const url = "";
 
       try {
-        await download(url, outputPath, files);
+        await download(outputPath, files);
         console.log(`Файл ${outputPath} успешно загружен`);
       } catch (err) {
         core.setFailed(`Ошибка скачивания файла ${outputPath}: ${err}`);

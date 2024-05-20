@@ -11,7 +11,7 @@ const conf = {
   m_user: '',
   m_pass: '',
   m_isNetCore: false,
-  m_timeout: 30 // in seconds
+  m_timeout: 300 // in seconds
 };
 
 const listDirectories = (dirPath) => {
@@ -93,7 +93,8 @@ const authorization = async () => {
   return Object.keys(cookies).length > 0;
 };
 
-const download = async (queryStr, outputLocationPath, files) => {
+const download = async (outputLocationPath, files) => {
+  var queryStr = '/ServiceModel/PackageInstallerService.svc/GetZipPackages';
   if (!conf.m_isNetCore) {
     queryStr = `/0${queryStr}`;
   }
@@ -102,7 +103,9 @@ const download = async (queryStr, outputLocationPath, files) => {
   const client = wrapper(axios.create({ jar, baseURL: conf.m_url, timeout: conf.m_timeout * 1000 }));
 
   const headers = {
-    'Accept-Encoding': 'gzip, deflate, br'
+    "content-type": "application/json",
+    "accept": "application/json, text/plain, */*",
+    "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7,kk;q=0.6"
   };
 
   setCookieHeaders(headers);
