@@ -97,6 +97,9 @@ const download = async (outputLocationPath, files) => {
   var queryStr = '/ServiceModel/PackageInstallerService.svc/GetZipPackages';
   if (!conf.m_isNetCore) {
     queryStr = `/0${queryStr}`;
+    console.log(`Приложение на Net. Framework`);
+  } else {
+    console.log(`Приложение на Net. Core`);
   }
 
   const jar = new CookieJar();
