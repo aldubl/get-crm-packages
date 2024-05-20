@@ -19,18 +19,18 @@ try {
 
     if (isAuthorized) {
 
-      for (const file of files) {
+      //for (const file of files) {
 
-        const outputPath = path.resolve(__dirname + "/resultDir", file);
-        const url = "";
+      const outputPath = path.resolve(__dirname + "/resultDir", file);
+      const url = "";
 
-        try {
-          await download(url, outputPath);
-          console.log(`Файл ${file} успешно загружен`);
-        } catch (err) {
-          core.setFailed(`Ошибка скачивания файла ${file}: ${err}`);
-        }
+      try {
+        await download(url, outputPath, files);
+        console.log(`Файл ${file} успешно загружен`);
+      } catch (err) {
+        core.setFailed(`Ошибка скачивания файла ${file}: ${err}`);
       }
+      //}
     } else {
       core.setFailed(`Авторизация не удалась :С`);
     }

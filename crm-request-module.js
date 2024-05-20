@@ -93,7 +93,7 @@ const authorization = async () => {
   return Object.keys(cookies).length > 0;
 };
 
-const download = async (queryStr, outputLocationPath) => {
+const download = async (queryStr, outputLocationPath, files) => {
   if (!conf.m_isNetCore) {
     queryStr = `/0${queryStr}`;
   }
@@ -110,7 +110,8 @@ const download = async (queryStr, outputLocationPath) => {
   const writer = fs.createWriteStream(outputLocationPath);
 
   try {
-    const response = await client.post(queryStr, null, {
+
+    const response = await client.post(queryStr, files, {
       headers,
       responseType: 'stream'
     });
