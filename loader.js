@@ -21,7 +21,7 @@ try {
 
     if (isAuthorized) {
 
-      //for (const file of files) {
+      console.log("Успешная авторизация.");
 
       const outputPath = __dirname + "/result.zip";
       const url = "";
