@@ -12,7 +12,7 @@ const conf = {
   m_user: '',
   m_pass: '',
   m_isNetCore: false,
-  isIgnoreSSL: false,
+  m_isIgnoreSSL: false,
   m_timeout: 300 // in seconds
 };
 
@@ -75,7 +75,7 @@ const query = async (queryStr, isNeedCookie = true) => {
 
   const jar = new CookieJar();
 
-  if (conf.isIgnoreSSL){
+  if (conf.m_isIgnoreSSL){
     const client = wrapper(axios.create({
       jar,
       baseURL: conf.m_url,
