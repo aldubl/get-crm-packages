@@ -37,43 +37,34 @@ const getJsonForAuth = () => JSON.stringify({
 });
 
 const getAuthCookie = async () => {
-  const jar = new CookieJar();
-	var client;
+	const jar = new CookieJar();
 
-  if (conf.m_isIgnoreSSL){
-    console.log(`SSL Игнорируется`);
-    client = wrapper(axios.create({
-      jar,
-      baseURL: conf.m_url,
-      timeout: conf.m_timeout * 1000,
-      httpsAgent: new https.Agent({
-        rejectUnauthorized: false
-      })
-    }));
-  } else  {
-    console.log(`SSL Проверяется`);
-    client = wrapper(axios.create({
-      jar,
-      baseURL: conf.m_url,
-      timeout: conf.m_timeout * 1000
-    }));
-  }
+	const client = wrapper(axios.create({
+		jar,
+		baseURL: conf.m_url,
+		httpsAgent: new https.Agent({
+		rejectUnauthorized: !conf.m_isIgnoreSSL
+		})
+	}));
 
-  try {
-    const response = await client.post('/ServiceModel/AuthService.svc/Login', getJsonForAuth(), {
-      headers: { 'Content-Type': 'application/json' }
-    });
+	try {
+		const response = await client.post('/ServiceModel/AuthService.svc/Login', getJsonForAuth(), {
+		headers: { 'Content-Type': 'application/json' }
+		});
 
-    response.headers['set-cookie'].forEach(cookieStr => {
-      const [key, value] = cookieStr.split(';')[0].split('=');
-      cookies[key] = value;
-    });
+		const cookies = {};
+		if (response.headers['set-cookie']) {
+		response.headers['set-cookie'].forEach(cookieStr => {
+			const [key, value] = cookieStr.split(';')[0].split('=');
+			cookies[key] = value;
+		});
+		}
 
-    return cookies;
-  } catch (error) {
-    console.error('Error fetching cookies:', error);
-    return {};
-  }
+		return cookies;
+	} catch (error) {
+		console.error('Error fetching cookies:', error);
+		return {};
+	}
 };
 
 const setCookieHeaders = (headers) => {
@@ -93,26 +84,14 @@ const query = async (queryStr, isNeedCookie = true) => {
   }
 
   const jar = new CookieJar();
-  var client;
 
-  if (conf.m_isIgnoreSSL){
-    console.log(`SSL Игнорируется`);
-    client = wrapper(axios.create({
-      jar,
-      baseURL: conf.m_url,
-      timeout: conf.m_timeout * 1000,
-      httpsAgent: new https.Agent({
-        rejectUnauthorized: false
-      })
-    }));
-  } else  {
-    console.log(`SSL Проверяется`);
-    client = wrapper(axios.create({
-      jar,
-      baseURL: conf.m_url,
-      timeout: conf.m_timeout * 1000
-    }));
-  }
+	const client = wrapper(axios.create({
+		jar,
+		baseURL: conf.m_url,
+		httpsAgent: new https.Agent({
+		rejectUnauthorized: !conf.m_isIgnoreSSL
+		})
+	}));
 
   const headers = {
     'Content-Type': 'application/json',
