@@ -76,6 +76,7 @@ const query = async (queryStr, isNeedCookie = true) => {
   const jar = new CookieJar();
 
   if (conf.m_isIgnoreSSL){
+    console.log(`SSL Игнорируется`);
     const client = wrapper(axios.create({
       jar,
       baseURL: conf.m_url,
@@ -85,6 +86,7 @@ const query = async (queryStr, isNeedCookie = true) => {
       })
     }));
   } else  {
+    console.log(`SSL Проверяется`);
     const client = wrapper(axios.create({
       jar,
       baseURL: conf.m_url,
