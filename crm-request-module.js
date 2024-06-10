@@ -38,10 +38,11 @@ const getJsonForAuth = () => JSON.stringify({
 
 const getAuthCookie = async () => {
   const jar = new CookieJar();
+	var client;
 
   if (conf.m_isIgnoreSSL){
     console.log(`SSL Игнорируется`);
-    const client = wrapper(axios.create({
+    client = wrapper(axios.create({
       jar,
       baseURL: conf.m_url,
       timeout: conf.m_timeout * 1000,
@@ -51,7 +52,7 @@ const getAuthCookie = async () => {
     }));
   } else  {
     console.log(`SSL Проверяется`);
-    const client = wrapper(axios.create({
+    client = wrapper(axios.create({
       jar,
       baseURL: conf.m_url,
       timeout: conf.m_timeout * 1000
@@ -92,10 +93,11 @@ const query = async (queryStr, isNeedCookie = true) => {
   }
 
   const jar = new CookieJar();
+  var client;
 
   if (conf.m_isIgnoreSSL){
     console.log(`SSL Игнорируется`);
-    const client = wrapper(axios.create({
+    client = wrapper(axios.create({
       jar,
       baseURL: conf.m_url,
       timeout: conf.m_timeout * 1000,
@@ -105,7 +107,7 @@ const query = async (queryStr, isNeedCookie = true) => {
     }));
   } else  {
     console.log(`SSL Проверяется`);
-    const client = wrapper(axios.create({
+    client = wrapper(axios.create({
       jar,
       baseURL: conf.m_url,
       timeout: conf.m_timeout * 1000
