@@ -38,7 +38,25 @@ const getJsonForAuth = () => JSON.stringify({
 
 const getAuthCookie = async () => {
   const jar = new CookieJar();
-  const client = wrapper(axios.create({ jar, baseURL: conf.m_url }));
+
+  if (conf.m_isIgnoreSSL){
+    console.log(`SSL Игнорируется`);
+    const client = wrapper(axios.create({
+      jar,
+      baseURL: conf.m_url,
+      timeout: conf.m_timeout * 1000,
+      httpsAgent: new https.Agent({
+        rejectUnauthorized: false
+      })
+    }));
+  } else  {
+    console.log(`SSL Проверяется`);
+    const client = wrapper(axios.create({
+      jar,
+      baseURL: conf.m_url,
+      timeout: conf.m_timeout * 1000
+    }));
+  }
 
   try {
     const response = await client.post('/ServiceModel/AuthService.svc/Login', getJsonForAuth(), {
