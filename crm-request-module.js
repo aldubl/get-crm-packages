@@ -37,34 +37,34 @@ const getJsonForAuth = () => JSON.stringify({
 });
 
 const getAuthCookie = async () => {
-	const jar = new CookieJar();
+    const jar = new CookieJar();
+    const client = wrapper(axios.create({
+        jar,
+        baseURL: conf.m_url,
+        withCredentials: true, // Включаем поддержку CORS если нужно
+        httpsAgent: new https.Agent({
+            rejectUnauthorized: !conf.m_isIgnoreSSL
+        })
+    }));
 
-	const client = wrapper(axios.create({
-		jar,
-		baseURL: conf.m_url,
-		httpsAgent: new https.Agent({
-		rejectUnauthorized: !conf.m_isIgnoreSSL
-		})
-	}));
+    try {
+        const response = await client.post('/ServiceModel/AuthService.svc/Login', getJsonForAuth(), {
+            headers: { 'Content-Type': 'application/json' }
+        });
 
-	try {
-		const response = await client.post('/ServiceModel/AuthService.svc/Login', getJsonForAuth(), {
-		headers: { 'Content-Type': 'application/json' }
-		});
+        const cookies = {};
+        if (response.headers['set-cookie']) {
+            response.headers['set-cookie'].forEach(cookieStr => {
+                const [key, value] = cookieStr.split(';')[0].split('=');
+                cookies[key] = value;
+            });
+        }
 
-		const cookies = {};
-		if (response.headers['set-cookie']) {
-		response.headers['set-cookie'].forEach(cookieStr => {
-			const [key, value] = cookieStr.split(';')[0].split('=');
-			cookies[key] = value;
-		});
-		}
-
-		return cookies;
-	} catch (error) {
-		console.error('Error fetching cookies:', error);
-		return {};
-	}
+        return cookies;
+    } catch (error) {
+        console.error('Error fetching cookies:', error);
+        return {};
+    }
 };
 
 const setCookieHeaders = (headers) => {
