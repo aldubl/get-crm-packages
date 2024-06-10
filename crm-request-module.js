@@ -3,6 +3,7 @@ const { wrapper } = require('axios-cookiejar-support');
 const { CookieJar } = require('tough-cookie');
 const fs = require('fs');
 const path = require('path');
+const https = require('https');
 
 let cookies = {};
 
@@ -77,7 +78,7 @@ const query = async (queryStr, isNeedCookie = true) => {
     jar,
     baseURL: conf.m_url,
     timeout: conf.m_timeout * 1000,
-    httpsAgent: new (require('https').Agent)({
+    httpsAgent: new https.Agent({
       rejectUnauthorized: !conf.isIgnoreSSL
     })
   }));
