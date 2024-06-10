@@ -74,14 +74,23 @@ const query = async (queryStr, isNeedCookie = true) => {
   }
 
   const jar = new CookieJar();
-  const client = wrapper(axios.create({
-    jar,
-    baseURL: conf.m_url,
-    timeout: conf.m_timeout * 1000,
-    httpsAgent: new https.Agent({
-      rejectUnauthorized: !conf.isIgnoreSSL
-    })
-  }));
+
+  if (conf.isIgnoreSSL){
+    const client = wrapper(axios.create({
+      jar,
+      baseURL: conf.m_url,
+      timeout: conf.m_timeout * 1000,
+      httpsAgent: new https.Agent({
+        rejectUnauthorized: false
+      })
+    }));
+  } else  {
+    const client = wrapper(axios.create({
+      jar,
+      baseURL: conf.m_url,
+      timeout: conf.m_timeout * 1000
+    }));
+  }
 
   const headers = {
     'Content-Type': 'application/json',
