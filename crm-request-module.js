@@ -11,6 +11,7 @@ const conf = {
   m_user: '',
   m_pass: '',
   m_isNetCore: false,
+  isIgnoreSSL: false,
   m_timeout: 300 // in seconds
 };
 
@@ -71,9 +72,15 @@ const query = async (queryStr, isNeedCookie = true) => {
     console.log(`Приложение на Net. Core`);
   }
 
-
   const jar = new CookieJar();
-  const client = wrapper(axios.create({ jar, baseURL: conf.m_url, timeout: conf.m_timeout * 1000 }));
+  const client = wrapper(axios.create({
+    jar,
+    baseURL: conf.m_url,
+    timeout: conf.m_timeout * 1000,
+    httpsAgent: new (require('https').Agent)({
+      rejectUnauthorized: !conf.isIgnoreSSL
+    })
+  }));
 
   const headers = {
     'Content-Type': 'application/json',

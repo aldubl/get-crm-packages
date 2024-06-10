@@ -7,7 +7,9 @@ conf.m_url = core.getInput('crmUrl');
 conf.m_user = core.getInput('user');
 conf.m_pass = core.getInput('pass');
 conf.m_isNetCore = core.getInput('isNetCore');
+conf.m_isNetCore = core.getInput('isIgnoreSSL');
 conf.m_timeout = 3600;
+
 const path = core.getInput('path');
 
 try {
